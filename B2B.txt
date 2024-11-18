@@ -1,0 +1,89 @@
+Born2beRoot :
+
+Creation de la machine :
+- Memory size
+- Hard disk
+- Hard disk file type
+- Storage on physical hard disk
+- File location and size
+- Choose a disk file => debian-12.8.0-amd64-netinst.iso
+- Debian GNU/Linux installer mmenu (BIOS mode)
+- ...
+
+Configuration de la machine :
+- (CMD) [su -] pour se connecter en tant qu'utilisateur root
+	=> C'est quoi un utilisateur root ? 
+		=> L'utilisateur root est l'administrateur principal d'un système Linux. Il a tous les privilèges et peut faire absolument tout ce qu'il veut sur le système.
+		=> Super utilisateur
+		=> Si un utilisateur "normal" (non-root) veut effectuer des actions qui nécessitent des privilèges élevés, il doit utiliser (CMD) [sudo] pour devenir root pendant un instant.
+	=> [su -] et [su] sont differents
+		=> [su] Cela te permet de te connecter en tant que root, mais sans charger son environnement complet. Certaines variables d'environnement ou configurations peuvent ne pas être chargées.
+		=> [su -] Cette commande charge l'environnement complet du root, ce qui inclut des paramètres importants.
+	=> C'est quoi exactement l'environnement ?
+		=> L'environnement d'un utilisateur sur Linux inclut des informations essentielles qui affectent le comportement de son terminal et des programmes.
+- (CMD) [apt-get update -y]
+	=> Mettre à jour les informations des paquets
+		=> MAJ des listes de paquets disponibles depuis les dépôts.
+		=> Elle permet de s'assurer que ton système connaît les dernières versions des paquets disponibles avant de procéder à des installations ou mises à jour. 		
+		=> L'option [-y] permet d'accepter automatiquement les demandes de confirmation.
+- (CMD) [apt-get upgrade -y]
+	=> Mettre à jour tous les paquets installés
+		=> MAJ des paquets installés vers les dernières versions disponibles.
+		=> [-y] permet également d'accepter automatiquement toutes les confirmations de mise à jour.
+- (CMD) [apt install sudo]
+	=> Installer sudo
+		=> (CMD) [apt install] permet d'installer des paquets depuis les dépôts de ta distribution. 
+		=> Ici insatllation de la (CMD) [sudo].
+- (CMD) [usermod -aG sudo your_username]
+	=> Ajouter l'utilisateur dans le groupe sudo
+		=> Cette commande ajoute un utilisateur au groupe sudo. 
+		=> Le groupe sudo permet aux membres d'exécuter des commandes avec des privilèges élevés via sudo. 
+		=> L'option [-aG] signifie "ajouter à un groupe existant" sans retirer l'utilisateur d'autres groupes.
+- (CMD) [getent group sudo]
+	=> Voir les utilisateurs du groupe sudo
+		=> Renvoie la liste des utilisateurs qui font partie du groupe sudo.
+- (CMD) [sudo visudo]
+	=> Éditer le fichier sudoers avec visudo
+		=> (CMD) [sudo] visudo ouvre le fichier sudoers dans un éditeur de texte sécurisé, généralement vi ou nano (selon la configuration de ton système). 
+		=> Le fichier sudoers contrôle qui peut utiliser sudo et avec quels privilèges.
+- Ajouter les privilèges à ton utilisateur
+	=> Dans le fichier sudoers, ajoutzr une ligne spécifiant les privilèges de ton utilisateur.
+		=>  A ceci : # User privilege specification
+					 root    ALL=(ALL:ALL) ALL
+		=> Rajoutez ceci : your_username    ALL=(ALL) ALL
+			=> Cela signifie que ton utilisateur aura la possibilité d'exécuter toutes les commandes en tant que root sur toutes les machines. 
+			=> Condition, utiliser [sudo].
+			=> ALL : Peut exécuter des commandes depuis n'importe quel terminal.
+			=> (ALL) : Peut exécuter des commandes en tant que n'importe quel utilisateur (en particulier root).
+			=> ALL : Peut exécuter toutes les commandes (pas de restriction).
+- Sauvegarder et quitter l'éditeur visudo
+	=> Sur nano [Ctrl + o] (sauvegarder) et [Ctrl + X] (quitter) 
+	=> Sur vi [wq] (sauvegarder et quitter)
+- (CMD) [apt-get install git -y]
+	=>  Installer Git
+		=> [apt-get] gestionnaire de paquets pour les systèmes basés sur Debian (comme Ubuntu). 
+		=> Il est utilisé pour installer, mettre à jour et supprimer des paquets logiciels.
+- (CMD) [git --version]
+	=> Verification de la version de Git
+- (CMD) [sudo apt install openssh-server]
+	=> Installer le serveur SSH
+		=> Cette commande installe OpenSSH Server.
+		=> C'est un logiciel qui permet de créer une connexion sécurisée à distance entre ton ordinateur (client SSH) et ta VM (serveur SSH). 
+		=> SSH (Secure Shell) est un protocole qui permet de se connecter à un autre ordinateur de manière sécurisée, en utilisant un réseau non sécurisé (comme Internet).
+		=> [sudo] Permet d'exécuter la commande avec les privilèges d'administrateur (root).
+		=> [apt] C'est le gestionnaire de paquets de Debian/Ubuntu , utilisé pour installer, mettre à jour et supprimer des logiciels.
+		=> [openssh-server] C'est le paquet qui contient le serveur SSH. Il permet à ta VM d'accepter des connexions SSH.
+	=> C'est quoi le serveur SSH ?
+- (CMD) [sudo systemctl status ssh]
+	=> Vérifier l'état du serveur SSH 
+		=> Verifie si le serveur fonctionne correctement sur la VM.
+		=> [systemctl] C'est un outil de gestion des services système sous Linux. Il permet de démarrer, arrêter, vérifier le statut, ou redémarrer des services comme SSH.
+		=> [status] affiche l'etat du service 
+- Éditer le fichier de configuration SSH avec vim
+	=> (CMD) [sudo vim /etc/ssh/sshd_config]
+		=>
+
+
+
+
+
