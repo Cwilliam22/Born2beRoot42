@@ -81,9 +81,75 @@ Configuration de la machine :
 		=> [status] affiche l'etat du service 
 - Éditer le fichier de configuration SSH avec vim
 	=> (CMD) [sudo vim /etc/ssh/sshd_config]
-		=>
+		=> Cette CMD ouvre le fichier de configuration du serveur SSH (sshd_config) avec Vim.
+		=> Ce fichier contient tous les paramètres du serveur SSH (comme les ports utilisés, les méthodes d'authentification, etc.).
+		=> [/etc/ssh/sshd_config] est le fichier de configuration du serveur SSH.
+		=> Si [vim] ne fonctionne pas utilise [nano].
+- Modifier le port SSH dans sshd_config
+	=> Modifier la ligne du port.
+	=> Trouver la ligne #Port 22.
+	=> Modifier cette ligne pour le port 4242.
+		=> #Port 22 to this Port 4242
+- Vérifier la configuration du port dans sshd_config
+	=> (CMD) [sudo grep Port /etc/ssh/sshd_config]
+	=> Cette CMD cherche toutes les lignes du fichier /etc/ssh/sshd_config qui contiennent le mot "Port".
+- (CMD) [sudo service ssh restart]
+	=> Redémarrer le service SSH pour appliquer les changements
+		=> Le service SSH doit être redémarré chaque fois qu'une modification est apportée à son fichier de configuration pour que les changements prennent effet.
+		=> [service] permet de gérer les services sur un système Linux (démarrer, arrêter, redémarrer, etc.).
+		=> [ssh] fait référence au service SSH que l'on veut redemarer.
+- (CMD) [sudo apt-get install ufw]
+	=> Installer UFW
+		=> UFW (Uncomplicated Firewall) est un pare-feu simple et facile à utiliser pour gérer les connexions réseau entrantes et sortantes.
+		=> Cette CMD installe le logiciel UFW depuis les dépôts de ta distribution Linux.
+- (CMD) [sudo ufw enable]
+	=> Actver UFW
+		=> Cette CMD active le pare-feu UFW et commence à appliquer les règles définies (par défaut, UFW bloque toutes les connexions entrantes non autorisées).
+- (CMD) [sudo ufw status numbered]
+	=> Verifier l'etat de UFW
+		=> Cette CMD affiche l'état actuel de UFW, y compris toutes les règles configurées.
+- (CMD) [sudo ufw allow ssh]
+	=> Autoriser les connexions SSH
+		=> Cette CMD permet les connexions SSH sur le port par défaut (port 22).
+		=> Cela garantit l'acces à la VM via SSH, même après avoir activé UFW.
+		=> Sans autorisation SSH + UFW est actif = risques d'etre bloque hors de la VM.
+- (CMD) [sudo ufw allow 4242]
+	=> Autoriser le port 4242
+		=> Autorise les connexions entrantes sur le port 4242.
+		=> Garantit que le serveur SSH sera accessible via ce port.
+- (CMD) [sudo ufw status numbered]
+	=> Verifie les regles configurees
+		=> Donne une liste des autorisations.
+		=> Affichage de "doublons".
+(Doublons)
+	- Exemple : 4242 et 4242 (v6) 
+	- Ces "doublons" correspondent à des règles distinctes pour les protocoles IPv4 et IPv6.
+	- Pour 4242 => Cette règle s'applique uniquement au protocole IPv4.
+	- Pour 4242 (v6) => Cette règle s'applique uniquement au protocole IPv6.
+		=> À quoi servent chacune de ces règles ?
+			Règle IPv4 (4242) :
+    		- Permet aux connexions provenant d'appareils utilisant une adresse IPv4 d'accéder à ta machine sur le port 4242.
+			Règle IPv6 (4242 v6) :
+    		- Permet aux connexions provenant d'appareils utilisant une adresse IPv6 d'accéder à ta machine sur le port 4242.
+		=> Assure la compatibilite
+		=> Simplifier la gestion
+[...]
 
+- (CMD) [sudo systemctl restart ssh] 
+	=> Redemarrer le serveur SSH
+		=> Cela applique les modifications faites dans le fichier de configuration SSH (/etc/ssh/sshd_config), comme celui du port 4242.
+- (CMD) [sudo service sshd status]
+	=> Verifie l'etat du service SSH
+- Ouvrir sa VM sur iTerm
+	=> Go iTerm
+	=> ssh your_username@127.0.0.1 -p 4242
+	=> exit pour quitter la connexion SSH
+- (CMD) [sudo apt-get install libpam-pwquality]
+	=> Installer la bibliotheque libpam-pwquality
+		=> Cette bibliothèque est utilisée pour imposer des critères de complexité pour les mots de passe.
+- (CMD) [sudo vim /etc/pam.d/common-password]
+	=> Modifier le fichier /etc/pam.d/common-password (ou nano si vim KO)
+- Ajouter ou modifier les parametres PAM
 
-
-
+[ctrl + cmd]
 
