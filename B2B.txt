@@ -150,6 +150,38 @@ Configuration de la machine :
 - (CMD) [sudo vim /etc/pam.d/common-password]
 	=> Modifier le fichier /etc/pam.d/common-password (ou nano si vim KO)
 - Ajouter ou modifier les parametres PAM
+	=> Changer la ligne pour :
+		=> password  requisite     pam_pwquality.so  retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
+	=> Save and Exit
+- (CMD) [sudo vim /etc/login.defs] (ou nano si vim KO)
+	=> Entrer dans le fichier de gestion de login
+		=> Changer les parametres suivants : PASS_MAX_DAYS, PASS_MIN_DAYS et PASS_WARN_AGE
+		=> PASS_MAX_DAYS 30, PASS_MIN_DAYS 2, PASS_WARN_AGE 7
+- (CMD) [sudo reboot]
+	=> Rebooter pour save les changements 
+- (CMD) [sudo groupadd user42]
+	=> Creation d'un groupe 42
+- (CMD) [sudo groupadd evaluating]
+	=> Creation d'un groupe evaluating
+- (CMD) [getent group]
+	=> Affiche la liste de tous les groupes existants
+		=> Check s'il y a user42 et evaluating
+- (CMD) [cut -d: -f1 /etc/passwd]
+	=> Lister les utilisateurs 
+		=> [/etc/passwd] contient les informations de tous les utilisateurs locaux.
+		=> [cut] Il s'agit d'un utilitaire en ligne de commande qui permet de couper ou extraire des parties spécifiques de lignes de texte.
+		=> [-d:] spécifie le délimiteur, c'est-à-dire le caractère qui sépare les différents champs de la ligne (ici ":").
+		=> [-f1] indique qu’on veut extraire le premier champ de chaque ligne du fichier. 
+- (CMD) [sudo adduser new_username]
+	=> Ajouter un nouvelle utilisateur (local)
+		=> Utilisateur local est specidfique a la machine
+- (CMD) [sudo usermod -aG user42 your_username]
+	=> Ajouter un utilisateur a un groupe (user42)
+- (CMD) [sudo usermod -aG evaluating your_new_username]
+	=> Ajouter le nouvel utilisateur a un groupe (evaluating)
+- (CMD) [getent group user42]
+	=>
+- (CMD) [getent group evaluating]
 
 [ctrl + cmd]
 
