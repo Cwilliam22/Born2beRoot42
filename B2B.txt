@@ -57,7 +57,11 @@ Configuration de la machine :
 			=> (ALL) : Peut exécuter des commandes en tant que n'importe quel utilisateur (en particulier root).
 			=> ALL : Peut exécuter toutes les commandes (pas de restriction).
 - Sauvegarder et quitter l'éditeur visudo
-	=> Sur nano [Ctrl + o] (sauvegarder) et [Ctrl + X] (quitter) 
+	=> Sur nano [Ctrl + o] (sauvegarder) et [Ctrl + X] (quitter) Then exit and save your sudoers file
+Now type sudo reboot in your Virtual Machine to reboot sudo
+Type sudo /usr/local/bin/monitoring.sh to execute your script as su (super user)
+Type sudo crontab -u root -e to open the crontab and add the rule
+Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin/monitoring.sh this means that every 10 mins, this script will show
 	=> Sur vi [wq] (sauvegarder et quitter)
 - (CMD) [apt-get install git -y]
 	=>  Installer Git
@@ -180,8 +184,116 @@ Configuration de la machine :
 - (CMD) [sudo usermod -aG evaluating your_new_username]
 	=> Ajouter le nouvel utilisateur a un groupe (evaluating)
 - (CMD) [getent group user42]
-	=>
+	=> Verifie que l'utilisateur appartient bien au groupe user42
 - (CMD) [getent group evaluating]
+	=> Verifie que le nouvelle utilisateur appartient bien au groupe evaluating
+- (CMD) [groups your_username]
+	=> Affiche les groupes dans utilisateurs
+- (CMD) [chage -l your_new_username]
+	=> Verifie les regles de mot de passe
+- (CMD) [cd ~/../../]
+	=> Retout au repertoire racine du systeme a partir du repertoire personnel
+		=> (CMD) [cd] changement de repertoire 
+		=> [~] represente le repertoire personnel de l'utilisateur.
+		=> [/../../] monter de niveau dans l'arborescence des repertoirs (chemin relatif).
+- (CMD) [cd var/log]
+	=> Entrer dans /var/log
+		=> Endroit ou sont stockes les journaux systeme sous Linux
+			=> C'est quoi les journaux systeme ?
+				=> Ce sont des fichiers où le système d'exploitation et les applications enregistrent des événements, 
+				   des messages d’erreur, des alertes ou d’autres informations importantes pour surveiller, 
+				   diagnostiquer et maintenir le fonctionnement du système.
+				=> Ces journaux sont cruciaux pour les administrateurs système, car ils permettent de comprendre ce 
+				   qui se passe sur une machine et d'identifier les problèmes éventuels. Par défaut, les journaux 
+				   système sont stockés dans le répertoire /var/log.
+- (CMD) [mkdir sudo]
+	=> Creer un repertoire sudo
+- (CMD) [cd sudo && touch sudo.log]
+	=> Entre et cree un fichier sudo.log dans le repertoire sudo
+- (CMD) [cd ~/../]
+	=> Retour au repertoire initial
+		=> Niveau superieur dans l'arborescence 
+- (CMD) [sudo nano /etc/sudoers]
+	=> Ouvrir le fichier sudoers dans nano
+- Configurer certain parametres de securite
+	=> (1) Defaults	env_reset
+	   (2) Defaults	mail_badpass
+	   (3) Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"
+	   (4) Defaults	badpass_message="Password is wrong, please try again!"
+	   (5) Defaults	passwd_tries=3
+	   (6) Defaults	logfile="/var/log/sudo/sudo.log"
+	   (7) Defaults	log_input, log_output
+	   (8) Defaults	requiretty
 
-[ctrl + cmd]
+	=> 1. Réinitialise les variables d'environnement à chaque commande sudo pour éviter les interférences.
+	   2. Envoie un e-mail à l'administrateur si quelqu'un entre un mauvais mot de passe avec sudo.
+	   3. Définit un chemin sécurisé pour les commandes sudo, garantissant que seules les commandes de répertoires sûrs peuvent être exécutées.
+	   4. Affiche ce message si l'utilisateur entre un mot de passe incorrect avec sudo.
+	   5. Permet à l'utilisateur d'essayer 3 fois de rentrer le bon mot de passe avant de bloquer l'accès.
+	   6. Enregistre toutes les actions sudo dans le fichier /var/log/sudo/sudo.log pour garder une trace.
+	   7. Enregistre les entrées et sorties de chaque commande sudo, pour un audit complet.
+	   8. Exige qu'un terminal interactif soit utilisé pour les commandes sudo, ce qui empêche les scripts non interactifs de les exécuter.
+	   		=> Concerne des executions automatiques de scripts, des connexions SSH en mode non-interactif et attaque a distance
+
+- (CMD) [apt-get install -y net-tools]
+	=> Installer net-tools
+		=> Ensemble d'outils reseau pour Linux.
+		=> Cet ensemble inclut la commande netstat, utilisée pour surveiller les connexions réseau, les interfaces actives, etc.
+- (CMD) [cd /usr/local/bin/]
+	=> Deplace dans le repertoire /usr/local/bin
+		=> Utilise pour stocker des scripts et des programmes personnalises
+		=> Pourquoi ce repertoire ?
+			=> Tout fichier placé dans /usr/local/bin/ peut être exécuté depuis n’importe où sans avoir à taper son chemin complet.
+- (CMD) [touch monitoring.sh]
+	=> Cree un fichier vide monitoring.sh
+		=> monitoring.sh sera un script de surveillance, où seront ecrit des commandes pour surveiller et enregistrer des informations sur le système.
+- (CMD) [chmod 777 monitoring.sh]
+	=> Change les permissions du fichier monitoring.sh
+		=> Rend le script exécutable, donc il pourra être utilisé sans restriction.
+		=> Cependant, accorder des permissions aussi larges peut être un risque de sécurité. 
+		=> Une alternative plus sûre serait 755, qui limite les droits d’écriture au propriétaire uniquement.
+
+(Partie script de la config)
+- Script => (1) #!/bin/bash
+			(2) arc=$(uname -a)
+			(3) pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l) 
+			(4) vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)
+			(5) fram=$(free -m | awk '$1 == "Mem:" {print $2}')
+			(6) uram=$(free -m | awk '$1 == "Mem:" {print $3}')
+			(7) pram=$(free | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}')
+			(8) fdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{ft += $2} END {print ft}')
+			(9) udisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print ut}')
+			(10) pdisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} END {printf("%d"), ut/ft*100}')
+			(11) cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
+			(12) lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')
+			(13) lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
+			(14) ctcp=$(ss -Ht state established | wc -l)
+			(15) ulog=$(users | wc -w)
+			(16) ip=$(hostname -I)
+			(17) mac=$(ip link show | grep "ether" | awk '{print $2}')
+			(18) cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
+			(19) wall "	#Architecture: $arc
+				(20) #CPU physical: $pcpu
+				(21) #vCPU: $vcpu
+				(22) #Memory Usage: $uram/${fram}MB ($pram%)
+				(23) #Disk Usage: $udisk/${fdisk}Gb ($pdisk%)
+				(24) #CPU load: $cpul
+				(25) #Last boot: $lb
+				(26) #LVM use: $lvmu
+				(27) #Connections TCP: $ctcp ESTABLISHED
+				(28) #User log: $ulog
+				(29) #Network: IP $ip ($mac)
+				(30) #Sudo: $cmds cmd"
+ - Mettre ce script dans le fichier monitoring.sh
+ (- Copier le script sur nano mais a partir d'une connection SSH (copier coller sur la vm complicado))
+- 
+
+Outils :
+- Sortir de la VM [cmd]
+- Passer en root (connexion complete a l'environnement root) [sudo -i]
+- Passer en root [sudo su]
+- Verification root [whoami]
+- Revenir utilisateur normal [exit]
+- [sudo reboot]
+
 
