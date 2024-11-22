@@ -284,9 +284,72 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 				(28) #User log: $ulog
 				(29) #Network: IP $ip ($mac)
 				(30) #Sudo: $cmds cmd"
- - Mettre ce script dans le fichier monitoring.sh
+		=> 1. 
+		   2. 
+		   3. 
+		   4. 
+		   5. 
+		   6. 
+		   7. 
+		   8. 
+		   9. 
+		   10. 
+		   11. 
+		   12. 
+		   13. 
+		   14. 
+		   15. 
+		   16. 
+		   17. 
+		   18. 
+		   19. 
+		   20. 
+		   21. 
+		   22. 
+		   23. 
+		   24. 
+		   25. 
+		   26. 
+		   27. 
+		   28. 
+		   29. 
+		   30. 
+
+- Mettre ce script dans le fichier monitoring.sh
  (- Copier le script sur nano mais a partir d'une connection SSH (copier coller sur la vm complicado))
-- 
+- (CMD) [sudo visudo]
+	=> Ouvrir et modifier le fichier sudoers
+		=> Permettre a l'utilisateur d'executer le script monitoring.sh avec les privileges root
+			=> Ajouter la ligne suivante sous privilege du groupe sudo
+				=> your_username ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh
+- (CMD) [sudo reboot]
+	=> Redemarrer la VM
+		=> Appliquer les modifications systemes.
+- (CMD) [sudo /usr/local/bin/monitoring.sh]
+	=> Tester l'execution du script en tant que "super-utilisateur"
+		=> Controler que tout a bien ete config (script + permissions)
+- (CMD) [sudo crontab -u root -e]
+	=> Config crontab pour automatiser l'execution
+		=> C'est quoi crontab ?
+			=> Crontab est un outil qui permet de programmer des tâches automatiques sur ton système. 
+			=> Ici contrab aura pour but d'executer mon script toutes les 10 min.
+		=> [-u root] permet de spécifier l'utilisateur pour lequel tu veux modifier les tâches planifiées (crontab). Ici c'est root.
+		=> [-e] signifie "edit". Cela indique que l'on veut ouvrir et modifier la crontab de l'utilisateur spécifié dans un éditeur de texte.
+		=> Ajouter la ligne suivante a la fin du fichier.
+			=> */10 * * * * /usr/local/bin/monitoring.sh
+				=> [*/10] Exécute la tâche toutes les 10 minutes.
+					=> Si on avait voulu une execution toute les 10h on aurait qqch du genre : 0 */10 * * * /usr/local/bin/monitoring.sh
+					=>	*     *     *     *     *  commande à exécuter
+						-     -     -     -     -
+						|     |     |     |     |
+						|     |     |     |     +--- Jour de la semaine (0–7) (dimanche = 0 ou 7)
+						|     |     |     +--------- Mois (1–12)
+						|     |     +--------------- Jour du mois (1–31)
+						|     +--------------------- Heure (0–23)
+						+--------------------------- Minute (0–59)
+
+				=> [* * * *] Correspond aux heures, jours, mois et jours de la semaine (pas de restriction ici).
+				=> [/usr/local/bin/monitoring.sh] Chemin complet vers le script à exécuter.
 
 Outils :
 - Sortir de la VM [cmd]
