@@ -3,6 +3,7 @@ Born2beRoot :
 Set-up de la machine :
  - Mémoire vive (MB)
  - Processors (CPU 1 - CPUs 16)
+ 	Indiquent le nombre de coeurs de CPU que l'on souhaite pour notre VM
 
  Général :
  - Qu'est ce qu'une machine virtuelle ?
