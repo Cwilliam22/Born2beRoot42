@@ -1,5 +1,33 @@
 Born2beRoot :
 
+Set-up de la machine :
+ - Mémoire vive (MB)
+ - Processors (CPU 1 - CPUs 16)
+
+ Général :
+ - Qu'est ce qu'une machine virtuelle ?
+ - À quoi sert une machine virtuelle (intérêt)?
+ - Comment fonctionne t elle ?
+ - Expliquer le choix du système d'exploitation.
+ - C'est quoi Debian et c'est quoi Rocky ?
+ - Quelles sont les différences entre Rocky et Debian ?
+ - Qu'est ce que le fichier signature que l'on doit rendre pour la peer-évaluation ?
+ - Qu'est ce qu'un fichier .vdi (celui dans lequel on va trouver la signature à comparer) ?
+ - Comment dupliquer la machine virtuelle ?
+ 
+ Choix : Debian
+ - Pourquoi Debian ?
+ - Quelle est la différence entre apptitude et apt ?
+ - C'est quoi APPArmor ?
+
+ Vérifications du set-up :
+ - C'est quoi un utilisateur non root ?
+ - Comment voir quelle système d'exploitation est utilisé ?
+ - C'est quoi un service UFW ?
+ - Comment s'assurer que ce dernier est bien lancé ?
+ - C'est quoi un service SSH ?
+ - Comment s'assurer que ce dernier est bien lancé ?
+
 Creation de la machine :
 - Memory size
 - Hard disk
