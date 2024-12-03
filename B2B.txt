@@ -7,27 +7,69 @@ Set-up de la machine :
 
  Général :
  - Qu'est ce qu'une machine virtuelle ?
+    => Un programme qui simule un ordinateur à l'intérieur d'un autre système.
+        => Elle fonctionne sur un ordinateur physique mais à son propre système d'exploitation.
  - À quoi sert une machine virtuelle (intérêt)?
+    => Tester des logiciels ou systèmes d'exploitation (par exemple)
  - Comment fonctionne t elle ?
+    => Elle fonctionnne grâce à un hyperviseur.
+        => Un hyperviseur est un logiciel qui crée et gère les VMs.
+        => L’hyperviseur répartit les ressources matérielles (CPU, RAM, stockage) entre les VMs (VirtualBox).
  - Expliquer le choix du système d'exploitation.
  - C'est quoi Debian et c'est quoi Rocky ?
+    => Debian est une distribution de Linux, connue pour sa sécurité et sa compatibilité avec un grand nombre de logiciel.
+    => Rochy est une autre distribution de Linux davantage utilisée pour des environnements professionnels.
+        => Garantie de stabilité et de support
+        => Conçue pour être 100% compatible avec Red Hat Enterprise Linux (RHEL).
  - Quelles sont les différences entre Rocky et Debian ?
+    => Debian est une distribution communautaire tandis que Rocky Linux vise 
+       principalement les entreprises avec des garanties de compatibilité avec RHEL.
+    => Debian a un cycle de vie plus flexible, avec des mises à jour fréquentes, 
+       tandis que Rocky se concentre sur la stabilité à long terme, avec un cycle 
+       de mise à jour plus long et des versions supportées pendant plusieurs années.
  - Qu'est ce que le fichier signature que l'on doit rendre pour la peer-évaluation ?
+    => Le fichier signature.txt est un fichier contenant l'empreinte numérique (ou hash) de la VMV.
+        => Cette empreinte permet de garantir l'intégrité de la VM originel.
+        => Vérifié qu'il n'y a pas eu de modification de la VM entre deux.
  - Qu'est ce qu'un fichier .vdi (celui dans lequel on va trouver la signature à comparer) ?
+    => Un fichier .vdi est un format de disque virtuel utilisé par VirtualBox pour stocker l'état d'un disque dur virtuel.
+    => Il contient toutes les données d'un système d'exploitation installé dans une machine virtuelle. 
+    => Ce fichier peut être utilisé pour sauvegarder ou dupliquer un environnement de machine virtuelle.
  - Comment dupliquer la machine virtuelle ?
- 
+    => Pour dupliquer une machine virtuelle, il faut créer une copie de son fichier disque 
+    => (par exemple .vdi) et de ses paramètres de configuration (fichier .vbox pour VirtualBox). 
+
  Choix : Debian
  - Pourquoi Debian ?
+    => Stabilité, sécurité et compatibilité
+    => Libre et open-source
  - Quelle est la différence entre apptitude et apt ?
+    => APT (Advanced Packaging Tool) est un système de gestion des paquets utilisé pour installer, 
+       supprimer ou mettre à jour des logiciels dans Debian et ses dérivés.
+    => Aptitude est une alternative à apt, offrant une interface plus avancée et des fonctionnalités 
+       supplémentaires, mais il est généralement plus complexe et moins utilisé au quotidien que apt.
  - C'est quoi APPArmor ?
+    => AppArmor est un système de sécurité pour Linux qui permet de contrôler les accès aux ressources système. 
+        => Il applique des profils de sécurité aux applications afin de limiter 
+           leur capacité à interagir avec d'autres parties du système.
 
  Vérifications du set-up :
  - C'est quoi un utilisateur non root ?
+    => Un utilisateur non root est un utilisateur qui n’a pas les privilèges d'administrateur du système.
  - Comment voir quelle système d'exploitation est utilisé ?
+    => (CMD) [uname -a] permet d'obtenir des informations détaillées sur le noyau et le système d'exploitation utilisé.
  - C'est quoi un service UFW ?
+    => UFW (Uncomplicated Firewall) est une interface simple pour configurer 
+       un pare-feu sur Linux. 
+        => Il permet de contrôler les connexions réseau
  - Comment s'assurer que ce dernier est bien lancé ?
+    => (CMD) [sudo ufw status]
  - C'est quoi un service SSH ?
+    => SSH (Secure Shell) est un protocole de communication sécurisé 
+       permettant de se connecter à un autre ordinateur à distance. 
+        => Le service SSH permet à un serveur d'accepter des connexions sécurisées sur ce protocole.
  - Comment s'assurer que ce dernier est bien lancé ?
+    => (CMD) [sudo systemctl status ssh]
 
 Creation de la machine :
 - Memory size
