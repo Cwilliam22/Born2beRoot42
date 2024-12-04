@@ -78,7 +78,7 @@ Creation de la machine :
 - Storage on physical hard disk
 - File location and size
 - Choose a disk file => debian-12.8.0-amd64-netinst.iso
-- Debian GNU/Linux installer mmenu (BIOS mode)
+- Debian GNU/Linux installer menu (BIOS mode)
 - ...
 
 Configuration de la machine :
@@ -178,7 +178,7 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 		=> UFW (Uncomplicated Firewall) est un pare-feu simple et facile à utiliser pour gérer les connexions réseau entrantes et sortantes.
 		=> Cette CMD installe le logiciel UFW depuis les dépôts de ta distribution Linux.
 - (CMD) [sudo ufw enable]
-	=> Actver UFW
+	=> Activer UFW
 		=> Cette CMD active le pare-feu UFW et commence à appliquer les règles définies (par défaut, UFW bloque toutes les connexions entrantes non autorisées).
 - (CMD) [sudo ufw status numbered]
 	=> Verifier l'etat de UFW
@@ -355,24 +355,24 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 				(28) #User log: $ulog
 				(29) #Network: IP $ip ($mac)
 				(30) #Sudo: $cmds cmd"
-		=> 1. 
-		   2. 
-		   3. 
-		   4. 
-		   5. 
-		   6. 
-		   7. 
-		   8. 
-		   9. 
-		   10. 
-		   11. 
-		   12. 
-		   13. 
-		   14. 
-		   15. 
-		   16. 
-		   17. 
-		   18. 
+		=> 1. Le script commence par spécifier qu'il doit être exécuté avec le programme Bash. 
+		   2. Il récupère les informations complètes sur l'architecture du système et les stocke dans une variable.
+		   3. Il compte le nombre de processeurs physiques (réels) présents sur le système.
+		   4. Il compte le nombre de processeurs virtuels (logiques) présents sur le système.
+		   5. Il récupère la quantité totale de mémoire RAM disponible sur le système.
+		   6. Il récupère la quantité de mémoire actuellement utilisée sur le système.
+		   7. Il calcule le pourcentage de mémoire utilisée par rapport à la mémoire totale.
+		   8. Il calcule la taille totale des disques présents sur le système, en excluant la partition de démarrage.
+		   9. Il calcule la quantité d'espace disque utilisé, également en excluant la partition de démarrage.
+		   10. Il calcule le pourcentage d'espace disque utilisé en comparant l'espace utilisé et l'espace total.
+		   11. Il calcule la charge actuelle du processeur en additionnant l'utilisation du CPU utilisateur et système.
+		   12. Il récupère la date et l'heure du dernier démarrage du système.
+		   13. Il vérifie si le système utilise LVM (gestion de volumes logiques) et renvoie "yes" ou "no".
+		   14. Il compte le nombre de connexions TCP établies sur le système.
+		   15. Il compte le nombre d'utilisateurs actuellement connectés au système.
+		   16. Il récupère l'adresse IP du système.
+		   17. Il récupère l'adresse MAC de l'interface réseau du système.
+		   18. Il compte combien de commandes ont été exécutées avec les droits administrateur (sudo).
 		   19. 
 		   20. 
 		   21. 
