@@ -373,18 +373,7 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 		   16. Il récupère l'adresse IP du système.
 		   17. Il récupère l'adresse MAC de l'interface réseau du système.
 		   18. Il compte combien de commandes ont été exécutées avec les droits administrateur (sudo).
-		   19. 
-		   20. 
-		   21. 
-		   22. 
-		   23. 
-		   24. 
-		   25. 
-		   26. 
-		   27. 
-		   28. 
-		   29. 
-		   30. 
+		   19.  
 
 - Mettre ce script dans le fichier monitoring.sh
  (- Copier le script sur nano mais a partir d'une connection SSH (copier coller sur la vm complicado))
@@ -421,6 +410,49 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 
 				=> [* * * *] Correspond aux heures, jours, mois et jours de la semaine (pas de restriction ici).
 				=> [/usr/local/bin/monitoring.sh] Chemin complet vers le script à exécuter.
+
+Bonus :
+
+- Mettre en place des partitions (LVM)
+- Mettre en place un site WordPress avec comme service lighttpd, MariaDB et PHP
+	=> WordPress = système de gestion de contenu (CMS) permetant de créer et gérer un site web sans avoir besoin de coder.
+		=> Fonctionne grace a une base de donnees et un serveur web.
+	=> Lighttpd = serveur web responsable de recevoir les requêtes des utilisateurs puis de renvoyer les pages du site dans un format que le navigateur peut afficher.
+		=> Serveur web leger et performant (pratique pour B2B)
+	=> MariaDB = base de données où WordPress va stocker toutes les informations du site.
+		=>  MariaDB est un gestionnaire de base de données très similaire à MySQL.
+
+	(Installation)
+	=> Installer lighttpd (CMD) [sudo apt install lighttpd -y]
+	=> Installer MariaDB (CMD) [sudo apt install mariadb-server mariadb-client -y]
+	=> Installer PHP et PHP-FM (CMD) [sudo apt install php php-fpm php-mysql -y]
+		=> PHP est essentiel pour exécuter WordPress. 
+		=> PHP-FPM est nécessaire pour que PHP fonctionne avec lighttpd.
+
+	(Configurer MariaDB)
+	=> Securiser MariaDB (CMD) [sudo mysql_secure_installation]
+		=> Pourquoi ? Securiser MariaDB permet de ne pas compromettre la confidentialité et l’intégrité de ces données presentent sur MariaDB.
+		=> Cette CMD est un script fourni par MariaDB permettant de securiser la base de donnees.
+			=> Definir un mot de passe pour un utilisateur root.
+			=> Desactiver l'acces root a distance.
+			=> Supprimer la base de donnees de test.
+			=> Recharger les privileges.
+	=> Se connecter a MariaDB (CMD) [sudo mysql -u root -p]
+		=> [mysql] utilise le programme client MariaDB pour se connecter à la base de données.
+		=> [-u root] spécifies que la connection doit se faire en tant qu'utilisateur root.
+		=> [-p] demande un mot de passe pour l'utilisateur specifie juste avant.
+	=> Creer une base de donnees (CMD) [CREATE DATABASE mon_site;]
+		=> Pour verifier si cette derniere a ete cree (CMD) [SHOW DATABASE;]
+		=> Attention une CMD se finit seulement apres un ";" et un "ENTER".
+		=> Pour annuler une CMD utilisez Ctrl + C.
+	=> Creer un user (CMD) [CREATE USER 'user_name'@'localhost' IDENTIFIED BY 'password_user';]
+		=> [CREAT USER] cree un nouvelle utilisateur.
+		=> ['user_name'] donne le nom de l'utilisateur.
+		=> [@] separe le nom de l'utilisateur et de l'hote a partir duquel il peut se connecter.
+		=> ['localhost'] specifie que l'utilisateur peut se connecter uniquement depuis la machine locale.
+			=> A l'inverse si l'on voulait autoriser la connection depuis n'importe quel ordinateur il aurait fallut mettre ['%'].
+		=> [IDENTIFIED BY 'password_user'] donne le mot de passe associe a l'utilisateur.
+- Mettre en place un service
 
 Outils :
 - Sortir de la VM [cmd]
