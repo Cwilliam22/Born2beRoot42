@@ -52,8 +52,6 @@ Set-up de la machine :
     => AppArmor est un système de sécurité pour Linux qui permet de contrôler les accès aux ressources système. 
         => Il applique des profils de sécurité aux applications afin de limiter 
            leur capacité à interagir avec d'autres parties du système.
-
- Vérifications du set-up :
  - C'est quoi un utilisateur non root ?
     => Un utilisateur non root est un utilisateur qui n’a pas les privilèges d'administrateur du système.
  - Comment voir quelle système d'exploitation est utilisé ?
@@ -390,7 +388,7 @@ Lastly at the end of the crontab, type the following */10 * * * * /usr/local/bin
 		=> Controler que tout a bien ete config (script + permissions)
 - (CMD) [sudo crontab -u root -e]
 	=> Config crontab pour automatiser l'execution
-		=> C'est quoi crontab ?
+		=> C'est quoi Crontab ?
 			=> Crontab est un outil qui permet de programmer des tâches automatiques sur ton système. 
 			=> Ici contrab aura pour but d'executer mon script toutes les 10 min.
 		=> [-u root] permet de spécifier l'utilisateur pour lequel tu veux modifier les tâches planifiées (crontab). Ici c'est root.
@@ -454,7 +452,54 @@ Bonus :
 		=> [IDENTIFIED BY 'password_user'] donne le mot de passe associe a l'utilisateur.
 - Mettre en place un service
 
-Outils :
+
+Evaluation :
+
+- Verifier que le user avec le login a ete ajoute au grp sudo et user42
+- Verifier les regles concernant la polititque de mot de passe est ok
+- Creer un nouvel utilisateur
+- Donner un mot de passe a cet utilisateur
+- Expliquer la mise en place des regles pour le mot de passe
+- Creer un groupe evaluating 
+- Assigner le nouvel utilisateur au groupe
+- Verifier que l'utilisateur appartient bien au groupe evaluating
+- Expliquer pourquoi avoir mis en place une politique de mot de passe
+- Controler le systeme d'exploitation
+- Verifier que les services UFW et SSH sont bien actifs  
+- Verifier le hostname de la machine (login42)
+- Changer le hostname de la machine par le login de l'evaluateur
+- Relancer la machine pour voir si le hostname change
+- Restaurer le hostname original de la machine 
+- Afficher les partitions de la machine 
+- Comparer avec l'enonce
+- Expliquer le fonctionnement et l'interet de LVM
+- Verifier que le programme sudo est bien installer 
+- Assigner le nouvel utilisateur au groupe sudo
+- Expliquer le fonctionnement et l'interet de sudo (par des exemples)
+- Demontrer la mise en place des regles imposee par le sujet
+- Verifier que le dossier /var/log/sudo/ existe et possede au moins un fichier
+- Verifier le contenu des fichiers de ce dossier
+- Avoir la liste des commandes sudo  
+- Faire une commande sudo et voir si le fichier a changer 
+- Verifier que le prgramme UFW est bien installer sur la machine
+- Verifier qu'il fonctionne correctement 
+- Expliquer ce qu'est UFW et son interet
+- Afficher les ports ouvert
+- Ajouter le port 8080
+- Puis supprimer-le
+- Verifier que le service SSH est installer 
+- Verifier qu'il fonctionne correctement
+- Expliquer ce qu'est SSH et son interet
+- Verifier que le service SSH utilise uniquement le port 4242 
+- Se connecter en SSH avec le nouvel utilisateur 
+- Expliquer le script
+- Expliquer ce qu'est cron
+- Epliquer comment le script s'execute toutes les 10 min
+- Changer le script pour qu'il s'execute toutes les 1 min
+- Changer le script pour pour qu'il ne s'execute plus mais sans le changer
+
+Autre :
+
 - Sortir de la VM [cmd]
 - Passer en root (connexion complete a l'environnement root) [sudo -i]
 - Passer en root [sudo su]
