@@ -546,7 +546,7 @@ Evaluation :
     => [sudo ufw --version]
 
 - Vérifier qu'il fonctionne correctement 
-    => [sudo ufw status]
+    => [sudo systemctl status ufw]
 
 - Expliquer ce qu'est UFW et son interet
     => UFW est un pare-feu simplifié.
@@ -608,5 +608,8 @@ Autre :
 - Verification root [whoami]
 - Revenir utilisateur normal [exit]
 - [sudo reboot]
-
+- [getent group] (voir tous les groupes)
+- [sudo groupdel nom_du_groupe] (supprimer un groupe)
+- [sudo userdel nom_utilisateur] (supprimer un utilisateur)
+- [getent passwd] (liste les user)
 
