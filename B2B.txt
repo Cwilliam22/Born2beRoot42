@@ -456,47 +456,149 @@ Bonus :
 Evaluation :
 
 - Verifier que le user avec le login a ete ajoute au grp sudo et user42
+    => [getent group sudo]
+    => [getent group user42]
+
 - Verifier les regles concernant la polititque de mot de passe est ok
+    => [sudo cat /etc/pam.d/common-password] (vérifie les paramètres PAM)
+    => [sudo cat /etc/login.defs] (vérifie les paramètres de durée)
+
 - Creer un nouvel utilisateur
+    => [sudo adduser new_username]
+
 - Donner un mot de passe a cet utilisateur
+    => [sudo passwd new_username]
+
 - Expliquer la mise en place des regles pour le mot de passe
+    => Sécuriser les accès pour réduire les risques de compromission.
+    => [password requisite pam_pwquality.so retry=3 minlen=10 ...] (complexité des mots de passe)
+    (Revoir)
+
 - Creer un groupe evaluating 
+    => [sudo groupadd evaluating]
+
 - Assigner le nouvel utilisateur au groupe
+    => [sudo usermod -aG evaluating new_username]
+
 - Verifier que l'utilisateur appartient bien au groupe evaluating
+    => [groups new_username]
+
 - Expliquer pourquoi avoir mis en place une politique de mot de passe
+    => Empêcher les mots de passe faibles ou facilement devinables.
+    => Mettre des normes de sécurité pour éviter des failles.
+    => Protéger les utilisateurs contre eux-mêmes en imposant de bonnes pratiques.
+
 - Controler le systeme d'exploitation
-- Verifier que les services UFW et SSH sont bien actifs  
+    => [uname -a]
+
+- Verifier que les services UFW et SSH sont bien actifs
+    => [sudo systemctl status ssh]
+    => [sudo ufw status]
+
 - Verifier le hostname de la machine (login42)
+    => [hostname]
+
 - Changer le hostname de la machine par le login de l'evaluateur
+    => [sudo nano /etc/hostname]
+
 - Relancer la machine pour voir si le hostname change
+    => [sudo reboot]
+
 - Restaurer le hostname original de la machine 
+    => Refaire l'étape d'avant avec l'ancien hostname.
+
 - Afficher les partitions de la machine 
-- Comparer avec l'enonce
-- Expliquer le fonctionnement et l'interet de LVM
-- Verifier que le programme sudo est bien installer 
+    => [lsblk]
+
+- Comparer avec l'énoncé
+
+- Expliquer le fonctionnement et l'intérêt de LVM
+    => LVM gère des volumes logiques sur des disques physiques.
+    => Permet de redimensionner ou déplacer des volumes sans perturber le système.
+    => LVM = ...
+
+- Verifier que le programme sudo est bien installer
+    => [sudo --version]
+
 - Assigner le nouvel utilisateur au groupe sudo
+    => [sudo usermod -aG sudo new_username]
+
 - Expliquer le fonctionnement et l'interet de sudo (par des exemples)
-- Demontrer la mise en place des regles imposee par le sujet
-- Verifier que le dossier /var/log/sudo/ existe et possede au moins un fichier
-- Verifier le contenu des fichiers de ce dossier
-- Avoir la liste des commandes sudo  
-- Faire une commande sudo et voir si le fichier a changer 
-- Verifier que le prgramme UFW est bien installer sur la machine
-- Verifier qu'il fonctionne correctement 
+    => Permet d’exécuter des commandes avec les privilèges root.
+    => Sécurise les actions administratives en évitant une session root permanente.
+    => Exemples ???
+
+- Démontrer la mise en place des régles imposées par le sujet
+    => [sudo cat /var/log/sudo/sudo.log] (???)
+
+- Vérifier que le dossier /var/log/sudo/ existe et possede au moins un fichier
+    => [ls /var/log/sudo/]
+
+- Vérifier le contenu des fichiers de ce dossier
+    => [cat /var/log/sudo/sudo.log]
+
+- Avoir la liste des commandes sudo
+    => [sudo -l]
+
+- Faire une commande sudo et voir si le fichier a changer
+
+- Vérifier que le prgramme UFW est bien installer sur la machine
+    => [sudo ufw --version]
+
+- Vérifier qu'il fonctionne correctement 
+    => [sudo ufw status]
+
 - Expliquer ce qu'est UFW et son interet
+    => UFW est un pare-feu simplifié.
+    => Facilite la gestion des règles réseau pour protéger le système.
+
 - Afficher les ports ouvert
+    => [sudo ufw status numbered]
+
 - Ajouter le port 8080
+    => [sudo ufw allow 8080]
+
 - Puis supprimer-le
-- Verifier que le service SSH est installer 
-- Verifier qu'il fonctionne correctement
+    => [sudo ufw delete allow 8080]
+
+- Vérifier que le service SSH est installer 
+    => [sudo systemctl status ssh]
+
+- Vérifier qu'il fonctionne correctement
+    => [sudo systemctl status ssh]
+
 - Expliquer ce qu'est SSH et son interet
-- Verifier que le service SSH utilise uniquement le port 4242 
+    => Protocole sécurisé permettant d'accéder à un serveur ou une machine à distance via une ligne de commande.
+    => Connexion sécurisée grâce au chiffrement.
+    => Administration distante des serveurs.
+
+- Vérifier que le service SSH utilise uniquement le port 4242
+    => [sudo grep Port /etc/ssh/sshd_config]
+    => S'assurer que seul Port 4242 est décommenté.
+    => [sudo systemctl restart ssh] (redémarrer SSH après modification)
+
 - Se connecter en SSH avec le nouvel utilisateur 
+    => [ssh new_username@127.0.0.1 -p 4242]
+
 - Expliquer le script
+    => Il collecte des informations sur le système (RAM, CPU, stockage, etc.).
+    => Facilite la surveillance et la gestion du système.
+
+
 - Expliquer ce qu'est cron
-- Epliquer comment le script s'execute toutes les 10 min
+    => Outil permettant d'automatiser l'exécution de tâches à des intervalles réguliers.
+
+- Expliquer comment le script s'exécute toutes les 10 min
+    => [sudo crontab -u root -e]
+    => [*/10 * * * * /usr/local/bin/monitoring.sh] (toutes les 10 min)
+
+
 - Changer le script pour qu'il s'execute toutes les 1 min
+    => [sudo crontab -u root -e]
+    => [* * * * * /usr/local/bin/monitoring.sh] (toutes les 1 min)
+
 - Changer le script pour pour qu'il ne s'execute plus mais sans le changer
+    => Désactive temporairement la tâche cron en ajoutant un commentaire (#) devant la ligne dans crontab.
 
 Autre :
 
